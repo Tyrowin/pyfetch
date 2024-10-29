@@ -10,7 +10,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "http-cli=http_cli.__main__:main",
+            "http_cli=http_cli.cli:main",
         ],
     },
     author="Malte Mindedal",
