@@ -1,7 +1,7 @@
 # HTTP CLI
 
 A lightweight command-line interface for making HTTP requests. Built with Python,
-this tool provides an easy way to make GET and POST requests with support for JSON data and customizable timeouts.
+this tool provides an easy way to make GET, POST, PUT, PATCH and DELETE requests with support for JSON data and customizable timeouts.
 
 ## Features
 
