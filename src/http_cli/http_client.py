@@ -1,21 +1,21 @@
 import requests
 from http_cli.exceptions import ConnectionError, ResponseError, HTTPClientError
 
+
 class HTTPClient:
     def __init__(self, timeout=30):
         self.timeout = timeout
-        self.allowed_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+        self.allowed_methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
     def make_request(self, method, url, **kwargs):
         if method.upper() not in self.allowed_methods:
-            raise ValueError(f"Unsupported HTTP method. Allowed methods: {', '.join(self.allowed_methods)}")
+            raise ValueError(
+                f"Unsupported HTTP method. Allowed methods: {', '.join(self.allowed_methods)}"
+            )
 
         try:
             response = requests.request(
-                method=method,
-                url=url,
-                timeout=self.timeout,
-                **kwargs
+                method=method, url=url, timeout=self.timeout, **kwargs
             )
             response.raise_for_status()
             return response
@@ -40,4 +40,3 @@ class HTTPClient:
 
     def delete(self, url, **kwargs):
         return self.make_request("DELETE", url, **kwargs)
-

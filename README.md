@@ -1,6 +1,6 @@
 # HTTP CLI
 
-A lightweight command-line interface for making HTTP requests. Built with Python, 
+A lightweight command-line interface for making HTTP requests. Built with Python,
 this tool provides an easy way to make GET and POST requests with support for JSON data and customizable timeouts.
 
 ## Features
@@ -11,9 +11,9 @@ this tool provides an easy way to make GET and POST requests with support for JS
 - JSON data handling for POST requests
 - Customizable timeout settings
 - Detailed response output
-  - Status code
-  - Response headers
-  - Response body
+    - Status code
+    - Response headers
+    - Response body
 - Comprehensive error handling
 - Built-in help system
 
@@ -28,12 +28,14 @@ this tool provides an easy way to make GET and POST requests with support for JS
 ### Setup
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/yourusername/http-cli.git
 cd http-cli
 ```
 
 2. Create and activate a virtual environment *(recommended)*:
+
 ```bash
 # Windows
 python -m venv venv
@@ -136,6 +138,7 @@ options:
 ```
 
 ### DELETE Request
+
 ```
 usage: http_cli DELETE [-h] [-t TIMEOUT] url
 
@@ -178,7 +181,7 @@ The CLI handles various types of errors:
 
 All errors are displayed with descriptive messages to help diagnose the issue.
 
-## Contributing 
+## Contributing
 
 1. Fork the repository
 2. Create your feature branch (git checkout -b feature/amazing-feature)
@@ -191,14 +194,14 @@ All errors are displayed with descriptive messages to help diagnose the issue.
 ### Common Issues
 
 1. Command not found:
-   - Make sure the package is installed (```pip list | findstr http-cli```)
-   - Ensure your virtual environment is activated
+    - Make sure the package is installed (```pip list | findstr http-cli```)
+    - Ensure your virtual environment is activated
 2. Import errors:
-   - Try reinstalling the package: ```pip install -e .```
-   - Make sure you're using the correct Python environment
+    - Try reinstalling the package: ```pip install -e .```
+    - Make sure you're using the correct Python environment
 3. JSON errors:
-   - Verify your JSON data is properly formatted
-   - Use single quotes around the entire JSON string and double quotes inside
+    - Verify your JSON data is properly formatted
+    - Use single quotes around the entire JSON string and double quotes inside
 
 ## License
 

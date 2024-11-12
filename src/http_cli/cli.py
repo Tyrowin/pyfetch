@@ -4,6 +4,7 @@ import textwrap
 from http_cli.http_client import HTTPClient
 from http_cli.exceptions import HTTPClientError
 
+
 def show_examples():
     examples = """
 Examples:
@@ -27,67 +28,86 @@ Examples:
     """
     print(textwrap.dedent(examples))
 
+
 def add_common_arguments(parser):
     """Add arguments that are common to multiple commands"""
-    parser.add_argument('url', help='Target URL')
+    parser.add_argument("url", help="Target URL")
     parser.add_argument(
-        '-t', '--timeout',
+        "-t",
+        "--timeout",
         type=int,
         default=30,
-        help='Request timeout in seconds (default: 30)'
+        help="Request timeout in seconds (default: 30)",
     )
+
 
 def create_parser():
     class CustomFormatter(argparse.HelpFormatter):
         def _split_lines(self, text, width):
-            if text.startswith('R|'):
+            if text.startswith("R|"):
                 return text[2:].splitlines()
             return argparse.HelpFormatter._split_lines(self, text, width)
 
     parser = argparse.ArgumentParser(
-        description='HTTP CLI client supporting GET, POST, PUT, PATCH, and DELETE methods',
+        description="HTTP CLI client supporting GET, POST, PUT, PATCH, and DELETE methods",
         formatter_class=CustomFormatter,
-        add_help=True
+        add_help=True,
     )
 
-    subparsers = parser.add_subparsers(dest='command', help='Available commands')
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # HELP command
-    help_parser = subparsers.add_parser('HELP', help='Show detailed help and examples', aliases=['help'])
+    help_parser = subparsers.add_parser(
+        "HELP", help="Show detailed help and examples", aliases=["help"]
+    )
 
     # GET command
-    get_parser = subparsers.add_parser('GET', help='Make a GET request', aliases=['get'])
+    get_parser = subparsers.add_parser(
+        "GET", help="Make a GET request", aliases=["get"]
+    )
     add_common_arguments(get_parser)
 
     # POST command
-    post_parser = subparsers.add_parser('POST', help='Make a POST request', aliases=['post'])
+    post_parser = subparsers.add_parser(
+        "POST", help="Make a POST request", aliases=["post"]
+    )
     add_common_arguments(post_parser)
     post_parser.add_argument(
-        '-d', '--data',
-        help='R|JSON data for request body.\nExample: \'{"key": "value"}\''
+        "-d",
+        "--data",
+        help='R|JSON data for request body.\nExample: \'{"key": "value"}\'',
     )
 
     # PUT command
-    put_parser = subparsers.add_parser('PUT', help='Make a PUT request', aliases=['put'])
+    put_parser = subparsers.add_parser(
+        "PUT", help="Make a PUT request", aliases=["put"]
+    )
     add_common_arguments(put_parser)
     put_parser.add_argument(
-        '-d', '--data',
-        help='R|JSON data for request body.\nExample: \'{"key": "value"}\''
+        "-d",
+        "--data",
+        help='R|JSON data for request body.\nExample: \'{"key": "value"}\'',
     )
 
     # PATCH command
-    patch_parser = subparsers.add_parser('PATCH', help='Make a PATCH request', aliases=['patch'])
+    patch_parser = subparsers.add_parser(
+        "PATCH", help="Make a PATCH request", aliases=["patch"]
+    )
     add_common_arguments(patch_parser)
     patch_parser.add_argument(
-        '-d', '--data',
-        help='R|JSON data for request body.\nExample: \'{"key": "value"}\''
+        "-d",
+        "--data",
+        help='R|JSON data for request body.\nExample: \'{"key": "value"}\'',
     )
 
     # DELETE command
-    delete_parser = subparsers.add_parser('DELETE', help='Make a DELETE request', aliases=['delete'])
+    delete_parser = subparsers.add_parser(
+        "DELETE", help="Make a DELETE request", aliases=["delete"]
+    )
     add_common_arguments(delete_parser)
 
     return parser
+
 
 def main():
     parser = create_parser()
@@ -95,7 +115,7 @@ def main():
 
     command = args.command.upper() if args.command else None
 
-    if not command or command == 'HELP':
+    if not command or command == "HELP":
         parser.print_help()
         print("\n")
         show_examples()
@@ -106,8 +126,8 @@ def main():
     try:
         # Prepare request kwargs
         kwargs = {}
-        if hasattr(args, 'data') and args.data:
-            kwargs['json'] = json.loads(args.data)
+        if hasattr(args, "data") and args.data:
+            kwargs["json"] = json.loads(args.data)
 
         # Make the request based on the command
         response = getattr(client, command.lower())(args.url, **kwargs)
@@ -123,7 +143,7 @@ def main():
     except json.JSONDecodeError:
         print("Error: Invalid JSON data")
         print("Make sure your JSON data is properly formatted.")
-        print("Example: '{\"key\": \"value\"}'")
+        print('Example: \'{"key": "value"}\'')
         exit(1)
     except HTTPClientError as e:
         print(f"Error: {str(e)}")
