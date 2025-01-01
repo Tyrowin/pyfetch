@@ -1,11 +1,16 @@
+"""Command-line interface for making HTTP requests with support for common HTTP methods."""
+
 import argparse
 import json
+import sys
 import textwrap
-from http_cli.http_client import HTTPClient
+
 from http_cli.exceptions import HTTPClientError
+from http_cli.http_client import HTTPClient
 
 
 def show_examples():
+    """Show examples of how to use the HTTP CLI client."""
     examples = """
 Examples:
     1. Make a GET request:
@@ -42,11 +47,13 @@ def add_common_arguments(parser):
 
 
 def create_parser():
+    """Create an argument parser for the HTTP CLI client."""
     class CustomFormatter(argparse.HelpFormatter):
+        """Custom formatter for the HTTP CLI client."""
         def _split_lines(self, text, width):
             if text.startswith("R|"):
                 return text[2:].splitlines()
-            return argparse.HelpFormatter._split_lines(self, text, width)
+            return super()._split_lines(text, width)
 
     parser = argparse.ArgumentParser(
         description="HTTP CLI client supporting GET, POST, PUT, PATCH, and DELETE methods",
@@ -57,7 +64,7 @@ def create_parser():
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # HELP command
-    help_parser = subparsers.add_parser(
+    subparsers.add_parser(
         "HELP", help="Show detailed help and examples", aliases=["help"]
     )
 
@@ -110,6 +117,7 @@ def create_parser():
 
 
 def main():
+    """Main function for the HTTP CLI client."""
     parser = create_parser()
     args = parser.parse_args()
 
@@ -144,7 +152,7 @@ def main():
         print("Error: Invalid JSON data")
         print("Make sure your JSON data is properly formatted.")
         print('Example: \'{"key": "value"}\'')
-        exit(1)
+        sys.exit(1)
     except HTTPClientError as e:
         print(f"Error: {str(e)}")
-        exit(1)
+        sys.exit(1)

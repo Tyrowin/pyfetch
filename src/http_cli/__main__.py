@@ -1,3 +1,7 @@
+"""Entry point for the HTTP CLI application."""
+
+import sys
+
 from http_cli.cli import main
 
 if __name__ == "__main__":
@@ -5,4 +9,4 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print("\nOperation cancelled by user")
-        exit(0)
+        sys.exit(0)
