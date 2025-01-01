@@ -1,16 +1,13 @@
+"""Custom exceptions for the HTTP CLI client."""
+
+
 class HTTPClientError(Exception):
     """Base exception for HTTP client errors"""
 
-    pass
 
-
-class ConnectionError(HTTPClientError):
+class HTTPConnectionError(HTTPClientError):
     """Raised when connection fails"""
-
-    pass
 
 
 class ResponseError(HTTPClientError):
     """Raised when response is invalid"""
-
-    pass
