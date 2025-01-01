@@ -1,4 +1,6 @@
-from setuptools import setup, find_packages
+"""Setup configuration for the HTTP CLI package."""
+
+from setuptools import find_packages, setup
 
 setup(
     name="http-cli",
