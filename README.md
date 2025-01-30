@@ -76,6 +76,45 @@ http_cli DELETE https://api.example.com/users/1
 http_cli HELP
 ```
 
+## Testing
+
+The project includes a comprehensive test suite using Python's unittest framework.
+
+### Running Tests
+
+Run all tests using either of these commands:
+
+```bash
+# Using Python's unittest discover
+python -m unittest discover tests
+
+# Using pip's installed test suite
+pip install -e .
+python setup.py test
+```
+
+### Test Coverage
+
+The test suite covers:
+- HTTP client functionality
+- CLI commands and arguments
+- Error handling and exceptions
+- Input validation
+- Response processing
+
+### Writing Tests
+
+Tests are organized in three main files:
+- `tests/test_cli.py` - Command-line interface tests
+- `tests/test_http_client.py` - HTTP client functionality tests
+- `tests/test_exceptions.py` - Exception handling tests
+
+To add new tests:
+1. Choose the appropriate test file based on functionality
+2. Create a new test method in the relevant test class
+3. Use unittest assertions to verify behavior
+4. Run the test suite to ensure all tests pass
+
 ## Command Reference
 
 ### GET Request

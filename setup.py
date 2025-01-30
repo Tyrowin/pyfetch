@@ -18,4 +18,5 @@ setup(
     author="Malte Mindedal",
     description="A simple HTTP CLI client",
     python_requires=">=3.7",
+    test_suite="tests",
 )
