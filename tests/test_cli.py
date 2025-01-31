@@ -1,8 +1,10 @@
 """Test cases for the CLI module"""
+
+import io
 import unittest
 from unittest.mock import patch
 
-from http_cli.cli import main
+from http_cli.cli import main, show_examples
 
 
 class TestCLI(unittest.TestCase):
@@ -10,10 +12,16 @@ class TestCLI(unittest.TestCase):
 
     @patch("sys.argv", ["http_cli", "HELP"])
     def test_help_command(self):
-        """Test the HELP command"""
-        with patch("builtins.print") as mocked_print:
-            main()
-            mocked_print.assert_called()
+        """Test the HELP command content"""
+        # Run help command with output suppressed
+        help_text = show_examples(suppress_output=True)
+        self.assertIn("Examples:", help_text)
+        self.assertIn("Make a GET request:", help_text)
+
+        # Verify main function with suppressed output
+        with patch("sys.stdout", new=io.StringIO()) as fake_stdout:
+            main(suppress_output=True)
+            self.assertEqual("", fake_stdout.getvalue())
 
     @patch("sys.argv", ["http_cli", "GET", "https://api.example.com"])
     @patch("http_cli.http_client.HTTPClient.get")
