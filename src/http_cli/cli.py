@@ -46,6 +46,18 @@ def add_common_arguments(parser):
         default=30,
         help="Request timeout in seconds (default: 30)",
     )
+    parser.add_argument(
+        "-H",
+        "--header",
+        action="append",
+        help="HTTP header in 'Key: Value' format. Can be used multiple times.",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Enable verbose logging for debugging.",
+    )
 
 
 def create_parser():
@@ -60,7 +72,7 @@ def create_parser():
             return super()._split_lines(text, width)
 
     parser = argparse.ArgumentParser(
-        description="HTTP CLI client supporting GET, POST, PUT, PATCH, and DELETE methods",
+        description="HTTP CLI client supporting GET, POST, PUT, PATCH, DELETE, HEAD, and OPTIONS methods",
         formatter_class=CustomFormatter,
         add_help=True,
     )
@@ -117,6 +129,18 @@ def create_parser():
     )
     add_common_arguments(delete_parser)
 
+    # HEAD command
+    head_parser = subparsers.add_parser(
+        "HEAD", help="Make a HEAD request", aliases=["head"]
+    )
+    add_common_arguments(head_parser)
+
+    # OPTIONS command
+    options_parser = subparsers.add_parser(
+        "OPTIONS", help="Make an OPTIONS request", aliases=["options"]
+    )
+    add_common_arguments(options_parser)
+
     return parser
 
 
@@ -134,13 +158,22 @@ def main(suppress_output=False):
         show_examples(suppress_output)
         return
 
-    client = HTTPClient(timeout=args.timeout)
+    client = HTTPClient(timeout=args.timeout, verbose=args.verbose)
 
     try:
         # Prepare request kwargs
         kwargs = {}
         if hasattr(args, "data") and args.data:
             kwargs["json"] = json.loads(args.data)
+        # Parse headers if provided
+        if hasattr(args, "header") and args.header:
+            headers = {}
+            for item in args.header:
+                if ":" in item:
+                    key, value = item.split(":", 1)
+                    headers[key.strip()] = value.strip()
+            if headers:
+                kwargs["headers"] = headers
 
         # Make the request based on the command
         response = getattr(client, command.lower())(args.url, **kwargs)
@@ -150,8 +183,16 @@ def main(suppress_output=False):
         print("\nHeaders:")
         for key, value in response.headers.items():
             print(f"{key}: {value}")
-        print("\nResponse Body:")
-        print(response.text)
+
+        # Only print Response Body if there is content
+        if response.text.strip():
+            print("\nResponse Body:")
+            try:
+                json_data = json.loads(response.text)
+                pretty_response = json.dumps(json_data, indent=4)
+                print(pretty_response)
+            except ValueError:
+                print(response.text)
 
     except json.JSONDecodeError:
         print("Error: Invalid JSON data")
