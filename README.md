@@ -31,8 +31,8 @@ this tool provides an easy way to make GET, POST, PUT, PATCH, DELETE, HEAD, and 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/http-cli.git
-cd http-cli
+git clone https://github.com/Tyrowin/PyFetch.git
+cd PyFetch
 ```
 
 2. Create and activate a virtual environment _(recommended)_:
@@ -271,7 +271,7 @@ All errors are displayed with descriptive messages to help diagnose the issue.
 ### Common Issues
 
 1. Command not found:
-   - Make sure the package is installed (`pip list | findstr http-cli`)
+   - Make sure the package is installed (`pip list | findstr PyFetch`)
    - Ensure your virtual environment is activated
 2. Import errors:
    - Try reinstalling the package: `pip install -e .`
