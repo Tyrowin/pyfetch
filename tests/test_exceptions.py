@@ -1,6 +1,6 @@
 """Test cases for the exceptions module"""
-import unittest
 
+import unittest
 
 from http_cli.exceptions import HTTPClientError
 
