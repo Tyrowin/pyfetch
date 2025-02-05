@@ -4,7 +4,7 @@ import io
 import unittest
 from unittest.mock import patch
 
-from http_cli.cli import main, show_examples
+from PyFetch.cli import main, show_examples
 
 
 class TestCLI(unittest.TestCase):
@@ -23,8 +23,8 @@ class TestCLI(unittest.TestCase):
             main(suppress_output=True)
             self.assertEqual("", fake_stdout.getvalue())
 
+    @patch("PyFetch.http_client.HTTPClient.get")
     @patch("sys.argv", ["http_cli", "GET", "https://api.example.com"])
-    @patch("http_cli.http_client.HTTPClient.get")
     def test_get_command(self, mock_get):
         """Test the GET command"""
         mock_get.return_value.status_code = 200
@@ -34,11 +34,11 @@ class TestCLI(unittest.TestCase):
             main()
             mocked_print.assert_called_with("Success")
 
+    @patch("PyFetch.http_client.HTTPClient.post")
     @patch(
         "sys.argv",
         ["http_cli", "POST", "https://api.example.com", "-d", '{"key": "value"}'],
     )
-    @patch("http_cli.http_client.HTTPClient.post")
     def test_post_command(self, mock_post):
         """Test the POST command"""
         mock_post.return_value.status_code = 201
