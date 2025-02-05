@@ -3,8 +3,8 @@
 import unittest
 from unittest.mock import patch
 
-from http_cli.exceptions import HTTPClientError
-from http_cli.http_client import HTTPClient
+from PyFetch.exceptions import HTTPClientError
+from PyFetch.http_client import HTTPClient
 
 
 class TestHTTPClient(unittest.TestCase):
