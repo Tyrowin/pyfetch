@@ -5,14 +5,14 @@ from setuptools import find_packages, setup
 setup(
     name="PyFetch",
     version="1.0.0",
-    packages=find_packages(where="src"),
-    package_dir={"": "src"},
+    packages=find_packages(include=["PyFetch", "PyFetch.*"]),  # updated packages lookup
+    package_dir={"PyFetch": "PyFetch"},                       # updated package directory mapping
     install_requires=[
         "requests>=2.25.1",
     ],
     entry_points={
         "console_scripts": [
-            "pyfetch=http_cli.cli:main",
+            "pyfetch=PyFetch.cli:main",
         ],
     },
     author="Malte Mindedal",
