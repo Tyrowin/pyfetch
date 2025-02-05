@@ -28,6 +28,26 @@ class TestHTTPClient(unittest.TestCase):
         with self.assertRaises(HTTPClientError):
             client.get("https://api.example.com")
 
+    @patch("requests.request")
+    def test_head_request_success(self, mock_request):
+        """Test a successful HEAD request"""
+        mock_request.return_value.status_code = 200
+        mock_request.return_value.text = ""
+        client = HTTPClient()
+        response = client.head("https://api.example.com")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.text, "")
+
+    @patch("requests.request")
+    def test_options_request_success(self, mock_request):
+        """Test a successful OPTIONS request"""
+        mock_request.return_value.status_code = 200
+        mock_request.return_value.text = ""
+        client = HTTPClient()
+        response = client.options("https://api.example.com")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.text, "")
+
 
 if __name__ == "__main__":
     unittest.main()
