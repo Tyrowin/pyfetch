@@ -2,7 +2,7 @@
 
 import requests
 
-from http_cli.exceptions import HTTPClientError, HTTPConnectionError, ResponseError
+from PyFetch.exceptions import HTTPClientError, HTTPConnectionError, ResponseError
 
 
 class HTTPClient:

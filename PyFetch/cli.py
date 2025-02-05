@@ -5,8 +5,8 @@ import json
 import sys
 import textwrap
 
-from http_cli.exceptions import HTTPClientError
-from http_cli.http_client import HTTPClient
+from PyFetch.exceptions import HTTPClientError
+from PyFetch.http_client import HTTPClient
 
 
 def show_examples(suppress_output=False):
