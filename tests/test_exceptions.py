@@ -2,7 +2,7 @@
 
 import unittest
 
-from http_cli.exceptions import HTTPClientError
+from PyFetch.exceptions import HTTPClientError
 
 
 class TestHTTPClientError(unittest.TestCase):
