@@ -1,19 +1,20 @@
-# HTTP CLI
+# PyFetch: A Lightweight HTTP CLI
 
 A lightweight command-line interface for making HTTP requests. Built with Python,
-this tool provides an easy way to make GET, POST, PUT, PATCH and DELETE requests with support for JSON data and customizable timeouts.
+this tool provides an easy way to make GET, POST, PUT, PATCH, DELETE, HEAD, and OPTIONS requests with support for JSON data, customizable timeouts, automatic retries on failures, and a verbose mode for detailed logging.
 
 ## Features
 
 - Simple command-line interface
 - Case-insensitive commands (GET/get, POST/post etc.)
-- Support for GET, PUT, POST, PATCH and DELETE requests
+- Support for GET, PUT, POST, PATCH, DELETE, HEAD, and OPTIONS requests
 - JSON data handling for POST requests
-- Customizable timeout settings
+- Customizable timeout settings and automatic retries on failures
+- Verbose mode for debugging: logs requests and responses
 - Detailed response output
-    - Status code
-    - Response headers
-    - Response body
+  - Status code
+  - Response headers
+  - Response body (pretty-printed if JSON)
 - Comprehensive error handling
 - Built-in help system
 
@@ -23,7 +24,7 @@ this tool provides an easy way to make GET, POST, PUT, PATCH and DELETE requests
 
 - Python 3.7 or higher
 - pip (Python package installer)
-- virtualenv *(recommended)*
+- virtualenv _(recommended)_
 
 ### Setup
 
@@ -34,7 +35,7 @@ git clone https://github.com/yourusername/http-cli.git
 cd http-cli
 ```
 
-2. Create and activate a virtual environment *(recommended)*:
+2. Create and activate a virtual environment _(recommended)_:
 
 ```bash
 # Windows
@@ -58,22 +59,28 @@ pip install -e .
 
 ```bash
 # Make a GET request
-http_cli GET https://api.example.com
+pyfetch GET https://api.example.com
 
 # Make a POST request with JSON data
-http_cli POST https://api.example.com -d '{"key": "value"}'
+pyfetch POST https://api.example.com -d '{"key": "value"}'
 
 # Update a resource with PUT
-http_cli PUT https://api.example.com/users/1 -d '{"name": "John"}'
+pyfetch PUT https://api.example.com/users/1 -d '{"name": "John"}'
 
 # Partially update with PATCH
-http_cli PATCH https://api.example.com/users/1 -d '{"email": "john@example.com"}'
+pyfetch PATCH https://api.example.com/users/1 -d '{"email": "john@example.com"}'
 
 # Delete a resource
-http_cli DELETE https://api.example.com/users/1
+pyfetch DELETE https://api.example.com/users/1
+
+# Make a HEAD request (fetch headers only)
+pyfetch HEAD https://api.example.com
+
+# Make an OPTIONS request (see allowed methods)
+pyfetch OPTIONS https://api.example.com
 
 # Show help message
-http_cli HELP
+pyfetch HELP
 ```
 
 ## Testing
@@ -96,6 +103,7 @@ python setup.py test
 ### Test Coverage
 
 The test suite covers:
+
 - HTTP client functionality
 - CLI commands and arguments
 - Error handling and exceptions
@@ -105,11 +113,13 @@ The test suite covers:
 ### Writing Tests
 
 Tests are organized in three main files:
+
 - `tests/test_cli.py` - Command-line interface tests
 - `tests/test_http_client.py` - HTTP client functionality tests
 - `tests/test_exceptions.py` - Exception handling tests
 
 To add new tests:
+
 1. Choose the appropriate test file based on functionality
 2. Create a new test method in the relevant test class
 3. Use unittest assertions to verify behavior
@@ -120,7 +130,7 @@ To add new tests:
 ### GET Request
 
 ```
-usage: http_cli GET [-h] [-t TIMEOUT] url
+usage: pyfetch GET [-h] [-t TIMEOUT] url
 
 positional arguments:
   url                   Target URL
@@ -134,7 +144,7 @@ options:
 ### POST Request
 
 ```
-usage: http_cli POST [-h] [-t TIMEOUT] [-d DATA] url
+usage: pyfetch POST [-h] [-t TIMEOUT] [-d DATA] url
 
 positional arguments:
   url                   Target URL
@@ -149,7 +159,7 @@ options:
 ### PUT Request
 
 ```
-usage: http_cli PUT [-h] [-t TIMEOUT] [-d DATA] url
+usage: pyfetch PUT [-h] [-t TIMEOUT] [-d DATA] url
 
 positional arguments:
   url                   Target URL
@@ -164,7 +174,7 @@ options:
 ### PATCH Request
 
 ```
-usage: http_cli PATCH [-h] [-t TIMEOUT] [-d DATA] url
+usage: pyfetch PATCH [-h] [-t TIMEOUT] [-d DATA] url
 
 positional arguments:
   url                   Target URL
@@ -179,7 +189,35 @@ options:
 ### DELETE Request
 
 ```
-usage: http_cli DELETE [-h] [-t TIMEOUT] url
+usage: pyfetch DELETE [-h] [-t TIMEOUT] url
+
+positional arguments:
+  url                   Target URL
+
+options:
+  -h, --help            show this help message and exit
+  -t TIMEOUT, --timeout TIMEOUT
+                        Request timeout in seconds (default: 30)
+```
+
+### HEAD Request
+
+```
+usage: pyfetch HEAD [-h] [-t TIMEOUT] url
+
+positional arguments:
+  url                   Target URL
+
+options:
+  -h, --help            show this help message and exit
+  -t TIMEOUT, --timeout TIMEOUT
+                        Request timeout in seconds (default: 30)
+```
+
+### OPTIONS Request
+
+```
+usage: pyfetch OPTIONS [-h] [-t TIMEOUT] url
 
 positional arguments:
   url                   Target URL
@@ -233,14 +271,14 @@ All errors are displayed with descriptive messages to help diagnose the issue.
 ### Common Issues
 
 1. Command not found:
-    - Make sure the package is installed (```pip list | findstr http-cli```)
-    - Ensure your virtual environment is activated
+   - Make sure the package is installed (`pip list | findstr http-cli`)
+   - Ensure your virtual environment is activated
 2. Import errors:
-    - Try reinstalling the package: ```pip install -e .```
-    - Make sure you're using the correct Python environment
+   - Try reinstalling the package: `pip install -e .`
+   - Make sure you're using the correct Python environment
 3. JSON errors:
-    - Verify your JSON data is properly formatted
-    - Use single quotes around the entire JSON string and double quotes inside
+   - Verify your JSON data is properly formatted
+   - Use single quotes around the entire JSON string and double quotes inside
 
 ## License
 
