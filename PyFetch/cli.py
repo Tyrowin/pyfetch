@@ -13,23 +13,35 @@ def show_examples(suppress_output=False):
     """Show examples of how to use the HTTP CLI client."""
     examples = """
 Examples:
-    1. Make a GET request:
-       http_cli GET https://api.example.com
+    1. Normal GET request:
+       pyfetch GET https://httpbin.org/get
 
-    2. Make a POST request with JSON data:
-       http_cli POST https://api.example.com -d '{"key": "value"}'
+    2. GET request with verbose mode to see retry logs and detailed output:
+       pyfetch GET https://httpbin.org/get --verbose
 
-    3. Update a resource with PUT:
-       http_cli PUT https://api.example.com/users/1 -d '{"name": "John"}'
+    3. GET request with a custom header (e.g., Authorization token):
+       pyfetch GET https://httpbin.org/headers -H "Authorization: Bearer your_token_here"
 
-    4. Partially update with PATCH:
-       http_cli PATCH https://api.example.com/users/1 -d '{"email": "john@example.com"}'
+    4. POST request with JSON data and custom Content-Type header:
+       pyfetch POST https://httpbin.org/post -d '{"key": "value"}' -H "Content-Type: application/json"
 
-    5. Delete a resource:
-       http_cli DELETE https://api.example.com/users/1
+    5. PUT request example to update a resource:
+       pyfetch PUT https://httpbin.org/put -d '{"name": "New Name"}' -H "Content-Type: application/json"
 
-    6. Show this help message:
-       http_cli HELP
+    6. PATCH request example to partially update a resource:
+       pyfetch PATCH https://httpbin.org/patch -d '{"email": "user@example.com"}' -H "Content-Type: application/json"
+
+    7. DELETE request to remove a resource:
+       pyfetch DELETE https://httpbin.org/delete
+
+    8. HEAD request to fetch only headers:
+       pyfetch HEAD https://httpbin.org/get
+
+    9. OPTIONS request to check allowed methods:
+       pyfetch OPTIONS https://httpbin.org/get
+
+    10. Show help message:
+       pyfetch HELP
     """
     if not suppress_output:
         print(textwrap.dedent(examples))
@@ -120,7 +132,7 @@ def create_parser():
     patch_parser.add_argument(
         "-d",
         "--data",
-        help='R|JSON data for request body.\nExample: \'{"key": "value"}\'',
+        help='R|JSON data for request body.\nExample: \'{"email": "user@example.com"}\'',
     )
 
     # DELETE command

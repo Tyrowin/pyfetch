@@ -58,28 +58,34 @@ pip install -e .
 ### Example Commands
 
 ```bash
-# Make a GET request
-pyfetch GET https://api.example.com
+# 1. Normal GET request:
+pyfetch GET https://httpbin.org/get
 
-# Make a POST request with JSON data
-pyfetch POST https://api.example.com -d '{"key": "value"}'
+# 2. GET request with verbose mode to see retry logs and detailed output:
+pyfetch GET https://httpbin.org/get --verbose
 
-# Update a resource with PUT
-pyfetch PUT https://api.example.com/users/1 -d '{"name": "John"}'
+# 3. GET request with a custom header (e.g., Authorization token):
+pyfetch GET https://httpbin.org/headers -H "Authorization: Bearer your_token_here"
 
-# Partially update with PATCH
-pyfetch PATCH https://api.example.com/users/1 -d '{"email": "john@example.com"}'
+# 4. POST request with JSON data and custom Content-Type header:
+pyfetch POST https://httpbin.org/post -d '{"key": "value"}' -H "Content-Type: application/json"
 
-# Delete a resource
-pyfetch DELETE https://api.example.com/users/1
+# 5. PUT request example to update a resource:
+pyfetch PUT https://httpbin.org/put -d '{"name": "New Name"}' -H "Content-Type: application/json"
 
-# Make a HEAD request (fetch headers only)
-pyfetch HEAD https://api.example.com
+# 6. PATCH request example to partially update a resource:
+pyfetch PATCH https://httpbin.org/patch -d '{"email": "user@example.com"}' -H "Content-Type: application/json"
 
-# Make an OPTIONS request (see allowed methods)
-pyfetch OPTIONS https://api.example.com
+# 7. DELETE request to remove a resource:
+pyfetch DELETE https://httpbin.org/delete
 
-# Show help message
+# 8. HEAD request to fetch only headers:
+pyfetch HEAD https://httpbin.org/get
+
+# 9. OPTIONS request to check allowed methods:
+pyfetch OPTIONS https://httpbin.org/get
+
+# 10. Show help message:
 pyfetch HELP
 ```
 
