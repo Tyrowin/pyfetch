@@ -16,7 +16,7 @@ class TestCLI(unittest.TestCase):
         # Run help command with output suppressed
         help_text = show_examples(suppress_output=True)
         self.assertIn("Examples:", help_text)
-        self.assertIn("Make a GET request:", help_text)
+        self.assertIn("Normal GET request:", help_text)
 
         # Verify main function with suppressed output
         with patch("sys.stdout", new=io.StringIO()) as fake_stdout:
