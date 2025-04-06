@@ -16,31 +16,34 @@ Examples:
     1. Normal GET request:
        pyfetch GET https://httpbin.org/get
 
-    2. GET request with verbose mode to see retry logs and detailed output:
+    2. GET request with progress bar (for files larger than 5MB):
+       pyfetch GET https://example.com/large-file.zip --progress
+
+    3. GET request with verbose mode to see retry logs and detailed output:
        pyfetch GET https://httpbin.org/get --verbose
 
-    3. GET request with a custom header (e.g., Authorization token):
+    4. GET request with a custom header (e.g., Authorization token):
        pyfetch GET https://httpbin.org/headers -H "Authorization: Bearer your_token_here"
 
-    4. POST request with JSON data and custom Content-Type header:
+    5. POST request with JSON data and custom Content-Type header:
        pyfetch POST https://httpbin.org/post -d '{"key": "value"}' -H "Content-Type: application/json"
 
-    5. PUT request example to update a resource:
+    6. PUT request example to update a resource:
        pyfetch PUT https://httpbin.org/put -d '{"name": "New Name"}' -H "Content-Type: application/json"
 
-    6. PATCH request example to partially update a resource:
+    7. PATCH request example to partially update a resource:
        pyfetch PATCH https://httpbin.org/patch -d '{"email": "user@example.com"}' -H "Content-Type: application/json"
 
-    7. DELETE request to remove a resource:
+    8. DELETE request to remove a resource:
        pyfetch DELETE https://httpbin.org/delete
 
-    8. HEAD request to fetch only headers:
+    9. HEAD request to fetch only headers:
        pyfetch HEAD https://httpbin.org/get
 
-    9. OPTIONS request to check allowed methods:
+    10. OPTIONS request to check allowed methods:
        pyfetch OPTIONS https://httpbin.org/get
 
-    10. Show help message:
+    11. Show help message:
        pyfetch HELP
     """
     if not suppress_output:
@@ -69,6 +72,11 @@ def add_common_arguments(parser):
         "--verbose",
         action="store_true",
         help="Enable verbose logging for debugging.",
+    )
+    parser.add_argument(
+        "--progress",
+        action="store_true",
+        help="Show progress bar for downloads larger than 5MB",
     )
 
 
@@ -170,7 +178,9 @@ def main(suppress_output=False):
         show_examples(suppress_output)
         return
 
-    client = HTTPClient(timeout=args.timeout, verbose=args.verbose)
+    client = HTTPClient(
+        timeout=args.timeout, verbose=args.verbose, show_progress=args.progress
+    )
 
     try:
         # Prepare request kwargs

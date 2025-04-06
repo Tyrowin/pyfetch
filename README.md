@@ -9,6 +9,7 @@ this tool provides an easy way to make GET, POST, PUT, PATCH, DELETE, HEAD, and 
 - Case-insensitive commands (GET/get, POST/post etc.)
 - Support for GET, PUT, POST, PATCH, DELETE, HEAD, and OPTIONS requests
 - JSON data handling for POST requests
+- Optional progress bars for large file downloads (>5MB)
 - Customizable timeout settings and automatic retries on failures
 - Verbose mode for debugging: logs requests and responses
 - Detailed response output
@@ -61,31 +62,34 @@ pip install -e .
 # 1. Normal GET request:
 pyfetch GET https://httpbin.org/get
 
-# 2. GET request with verbose mode to see retry logs and detailed output:
+# 2. GET request with progress bar (for files larger than 5MB):
+pyfetch GET https://example.com/large-file.zip --progress
+
+# 3. GET request with verbose mode to see retry logs and detailed output:
 pyfetch GET https://httpbin.org/get --verbose
 
-# 3. GET request with a custom header (e.g., Authorization token):
+# 4. GET request with a custom header (e.g., Authorization token):
 pyfetch GET https://httpbin.org/headers -H "Authorization: Bearer your_token_here"
 
-# 4. POST request with JSON data and custom Content-Type header:
+# 5. POST request with JSON data and custom Content-Type header:
 pyfetch POST https://httpbin.org/post -d '{"key": "value"}' -H "Content-Type: application/json"
 
-# 5. PUT request example to update a resource:
+# 6. PUT request example to update a resource:
 pyfetch PUT https://httpbin.org/put -d '{"name": "New Name"}' -H "Content-Type: application/json"
 
-# 6. PATCH request example to partially update a resource:
+# 7. PATCH request example to partially update a resource:
 pyfetch PATCH https://httpbin.org/patch -d '{"email": "user@example.com"}' -H "Content-Type: application/json"
 
-# 7. DELETE request to remove a resource:
+# 8. DELETE request to remove a resource:
 pyfetch DELETE https://httpbin.org/delete
 
-# 8. HEAD request to fetch only headers:
+# 9. HEAD request to fetch only headers:
 pyfetch HEAD https://httpbin.org/get
 
-# 9. OPTIONS request to check allowed methods:
+# 10. OPTIONS request to check allowed methods:
 pyfetch OPTIONS https://httpbin.org/get
 
-# 10. Show help message:
+# 11. Show help message:
 pyfetch HELP
 ```
 
@@ -136,15 +140,19 @@ To add new tests:
 ### GET Request
 
 ```
-usage: pyfetch GET [-h] [-t TIMEOUT] url
+usage: pyfetch GET [-h] [-t TIMEOUT] [-H HEADER] [-v] [--progress] url
 
 positional arguments:
   url                   Target URL
 
 options:
-  -h, --help            show this help message and exit
+  -h, --help           show this help message and exit
   -t TIMEOUT, --timeout TIMEOUT
-                        Request timeout in seconds (default: 30)
+                       Request timeout in seconds (default: 30)
+  -H HEADER, --header HEADER
+                       HTTP header in 'Key: Value' format. Can be used multiple times.
+  -v, --verbose        Enable verbose logging for debugging.
+  --progress           Show progress bar for downloads larger than 5MB
 ```
 
 ### POST Request
