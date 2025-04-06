@@ -12,6 +12,7 @@ setup(
     package_dir={"PyFetch": "PyFetch"},
     install_requires=[
         "requests>=2.25.1",
+        "tqdm>=4.66.0",
     ],
     entry_points={
         "console_scripts": [
